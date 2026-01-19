@@ -5,15 +5,8 @@ mkdir -p /var/www/html
 chown -R www-data:www-data /var/www/html
 chmod -R 755 /var/www/html
 
-if [ ! -f "/usr/local/bin/wp" ]; then
-    curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-    chmod +x wp-cli.phar
-    mv wp-cli.phar /usr/local/bin/wp
-fi
-
 cd /var/www/html
 
-# Read secrets from files
 WP_ADMIN_PASS=$(cat /run/secrets/credentials | cut -d':' -f2)
 DB_PASS=$(cat /run/secrets/db_password)
 WP_USER_PASS="editorPass123!"

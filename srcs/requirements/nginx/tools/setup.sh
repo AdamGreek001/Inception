@@ -1,15 +1,17 @@
 #!/bin/sh
-# NGINX Setup Script for Inception
 
 set -e
 
-# Generate self-signed SSL certificate if not exists
-if [ ! -f /etc/nginx/ssl/nginx.crt ]; then
+SSL_DIR=/etc/nginx/ssl
+
+if [ ! -f ${SSL_DIR}/certs/inception.crt ]; then
     echo "Generating SSL certificate..."
     
+    mkdir -p ${SSL_DIR}/certs ${SSL_DIR}/private
+    
     openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-        -keyout /etc/nginx/ssl/nginx.key \
-        -out /etc/nginx/ssl/nginx.crt \
+        -keyout ${SSL_DIR}/private/inception.key \
+        -out ${SSL_DIR}/certs/inception.crt \
         -subj "/C=MA/ST=Casablanca/L=Casablanca/O=42/OU=42/CN=eel-alao.42.fr"
     
     echo "SSL certificate generated successfully!"
