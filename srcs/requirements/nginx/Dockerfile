@@ -1,25 +1,21 @@
-# NGINX Container for Inception
-# Based on Alpine 3.19 (penultimate stable)
+FROM debian:bookworm
 
-FROM alpine:3.19
+ARG SSL_DIR=/etc/nginx/ssl
 
-# Install NGINX and OpenSSL
-RUN apk update && apk add --no-cache \
+RUN apt-get update && \
+    apt-get install -y \
+    openssl \
     nginx \
-    openssl
+    netcat-openbsd
 
-# Create directories
-RUN mkdir -p /etc/nginx/ssl /var/www/html /run/nginx
+RUN mkdir -p ${SSL_DIR}/certs ${SSL_DIR}/private && \
+    openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+    -keyout ${SSL_DIR}/private/inception.key \
+    -out ${SSL_DIR}/certs/inception.crt \
+    -subj "/C=MA/ST=Casablanca/L=Casablanca/O=42/OU=42/CN=eel-alao.42.fr"
 
-# Copy configuration
-COPY conf/nginx.conf /etc/nginx/nginx.conf
+WORKDIR /etc/nginx
 
-# Copy setup script
-COPY tools/setup.sh /usr/local/bin/setup.sh
-RUN chmod +x /usr/local/bin/setup.sh
+COPY ./conf/nginx.conf /etc/nginx/nginx.conf
 
-# Expose HTTPS port only
-EXPOSE 443
-
-# Run setup script which starts nginx
-ENTRYPOINT ["/usr/local/bin/setup.sh"]
+ENTRYPOINT ["nginx", "-g", "daemon off;"]

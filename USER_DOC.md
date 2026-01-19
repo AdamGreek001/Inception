@@ -21,12 +21,12 @@ All communication happens over HTTPS (port 443) ensuring your data is encrypted.
 ## Services Provided
 
 ### Website Hosting
-- Your WordPress website is accessible at: **https://abogreek.42.fr**
+- Your WordPress website is accessible at: **https://eel-alao.42.fr**
 - The site uses a valid SSL certificate (self-signed for development)
 - All traffic is encrypted using TLS 1.2 or TLS 1.3
 
 ### Administration Panel
-- WordPress admin panel: **https://abogreek.42.fr/wp-admin**
+- WordPress admin panel: **https://eel-alao.42.fr/wp-admin**
 - Manage posts, pages, themes, plugins, and users
 - Full administrative control over your website
 
@@ -76,7 +76,7 @@ make restart
 
 1. **Add domain to your hosts file** (one-time setup):
    ```bash
-   echo "127.0.0.1 abogreek.42.fr" | sudo tee -a /etc/hosts
+   echo "127.0.0.1 eel-alao.42.fr" | sudo tee -a /etc/hosts
    ```
 
 2. **Start the infrastructure**:
@@ -85,8 +85,8 @@ make restart
    ```
 
 3. **Open your browser** and navigate to:
-   - Website: https://abogreek.42.fr
-   - Admin: https://abogreek.42.fr/wp-admin
+   - Website: https://eel-alao.42.fr
+   - Admin: https://eel-alao.42.fr/wp-admin
 
 4. **Accept the security warning** (self-signed certificate)
 
@@ -94,7 +94,7 @@ make restart
 
 Since we use a self-signed SSL certificate, your browser will show a security warning. This is expected for development environments.
 
-- **Chrome**: Click "Advanced" → "Proceed to abogreek.42.fr (unsafe)"
+- **Chrome**: Click "Advanced" → "Proceed to eel-alao.42.fr (unsafe)"
 - **Firefox**: Click "Advanced" → "Accept the Risk and Continue"
 - **Safari**: Click "Show Details" → "visit this website"
 
@@ -162,7 +162,7 @@ make logs-f
 **NGINX (Web Server)**:
 ```bash
 # Should return HTML content
-curl -k https://abogreek.42.fr
+curl -k https://eel-alao.42.fr
 
 # Check NGINX container
 docker logs nginx
@@ -244,7 +244,7 @@ docker restart mariadb
 
 3. Verify hosts file entry:
    ```bash
-   cat /etc/hosts | grep abogreek
+   cat /etc/hosts | grep eel-alao
    ```
 
 ### Database Connection Issues
@@ -262,7 +262,7 @@ docker restart mariadb
 
 ```bash
 # Fix data directory permissions
-sudo chown -R $(whoami):$(whoami) /home/abogreek/data
+sudo chown -R $(whoami):$(whoami) /home/eel-alao/data
 ```
 
 ---
@@ -273,14 +273,14 @@ All persistent data is stored on the host machine:
 
 | Data Type | Location |
 |-----------|----------|
-| WordPress files | `/home/abogreek/data/wordpress/` |
-| Database | `/home/abogreek/data/mariadb/` |
+| WordPress files | `/home/eel-alao/data/wordpress/` |
+| Database | `/home/eel-alao/data/mariadb/` |
 
 ### Backup Recommendations
 
 ```bash
 # Backup WordPress files
-tar -czf wordpress_backup.tar.gz /home/abogreek/data/wordpress/
+tar -czf wordpress_backup.tar.gz /home/eel-alao/data/wordpress/
 
 # Backup database
 docker exec mariadb mysqldump -u root -p wordpress > backup.sql

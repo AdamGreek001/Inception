@@ -42,7 +42,7 @@ docker compose version
 Location: `srcs/.env`
 
 ```bash
-DOMAIN_NAME=abogreek.42.fr      # Your domain
+DOMAIN_NAME=eel-alao.42.fr      # Your domain
 MYSQL_DATABASE=wordpress         # Database name
 MYSQL_USER=wpuser               # Database user
 WP_TITLE=Inception              # WordPress site title
@@ -243,15 +243,15 @@ Inception/
 
 | Volume | Container Path | Host Path |
 |--------|---------------|-----------|
-| `wordpress_data` | `/var/www/html` | `/home/abogreek/data/wordpress` |
-| `mariadb_data` | `/var/lib/mysql` | `/home/abogreek/data/mariadb` |
+| `wordpress_data` | `/var/www/html` | `/home/eel-alao/data/wordpress` |
+| `mariadb_data` | `/var/lib/mysql` | `/home/eel-alao/data/mariadb` |
 
 ### Creating Data Directories
 
 ```bash
-sudo mkdir -p /home/abogreek/data/wordpress
-sudo mkdir -p /home/abogreek/data/mariadb
-sudo chown -R $(whoami):$(whoami) /home/abogreek/data
+sudo mkdir -p /home/eel-alao/data/wordpress
+sudo mkdir -p /home/eel-alao/data/mariadb
+sudo chown -R $(whoami):$(whoami) /home/eel-alao/data
 ```
 
 ### Data Backup
@@ -259,7 +259,7 @@ sudo chown -R $(whoami):$(whoami) /home/abogreek/data
 ```bash
 # Backup WordPress files
 sudo tar -czf wordpress_files_$(date +%Y%m%d).tar.gz \
-    /home/abogreek/data/wordpress
+    /home/eel-alao/data/wordpress
 
 # Backup database
 docker exec mariadb mysqldump -u root \
@@ -369,7 +369,7 @@ docker rmi $(docker images -q "*:inception") 2>/dev/null || true
 docker volume rm wordpress_data mariadb_data 2>/dev/null || true
 
 # Remove data directories
-sudo rm -rf /home/abogreek/data
+sudo rm -rf /home/eel-alao/data
 
 # Prune system
 docker system prune -af
@@ -386,10 +386,10 @@ docker system prune -af
 docker ps --format "table {{.Names}}\t{{.Status}}"
 
 # Verify HTTPS works
-curl -k -I https://abogreek.42.fr
+curl -k -I https://eel-alao.42.fr
 
 # Verify WordPress is responding
-curl -k https://abogreek.42.fr | grep -i wordpress
+curl -k https://eel-alao.42.fr | grep -i wordpress
 ```
 
 ### Network Testing
@@ -408,7 +408,7 @@ docker exec wordpress nc -zv mariadb 3306
 
 ```bash
 # Check SSL certificate details
-echo | openssl s_client -connect abogreek.42.fr:443 2>/dev/null | \
+echo | openssl s_client -connect eel-alao.42.fr:443 2>/dev/null | \
     openssl x509 -noout -text | head -20
 ```
 

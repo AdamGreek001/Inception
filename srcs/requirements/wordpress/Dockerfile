@@ -1,57 +1,18 @@
-# WordPress + PHP-FPM Container for Inception
-# Based on Alpine 3.19 (penultimate stable)
+FROM debian:bookworm
 
-FROM alpine:3.19
-
-# Install PHP and required extensions for WordPress
-RUN apk update && apk add --no-cache \
-    php82 \
-    php82-fpm \
-    php82-mysqli \
-    php82-json \
-    php82-curl \
-    php82-dom \
-    php82-exif \
-    php82-fileinfo \
-    php82-mbstring \
-    php82-openssl \
-    php82-xml \
-    php82-zip \
-    php82-gd \
-    php82-iconv \
-    php82-intl \
-    php82-phar \
-    php82-ctype \
-    php82-session \
-    php82-tokenizer \
-    php82-pecl-redis \
-    wget \
+RUN apt-get update && \
+	apt-get install -y \
+    php8.2 \
+    php8.2-fpm \
+    php8.2-mysql \
     curl \
-    mariadb-client
+    netcat-openbsd \
+    default-mysql-client
 
-# Install WP-CLI
-RUN wget -q https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -O /usr/local/bin/wp \
-    && chmod +x /usr/local/bin/wp
+WORKDIR /root
 
-# Create symbolic link for php
-RUN ln -sf /usr/bin/php82 /usr/bin/php
+COPY ./tools/init-wordpress.sh ./init-wordpress.sh
 
-# Configure PHP-FPM
-COPY conf/www.conf /etc/php82/php-fpm.d/www.conf
+RUN chmod +x ./init-wordpress.sh
 
-# Create WordPress directory
-RUN mkdir -p /var/www/html \
-    && chown -R nobody:nobody /var/www/html
-
-# Copy initialization script
-COPY tools/init-wordpress.sh /usr/local/bin/init-wordpress.sh
-RUN chmod +x /usr/local/bin/init-wordpress.sh
-
-# Set working directory
-WORKDIR /var/www/html
-
-# Expose PHP-FPM port
-EXPOSE 9000
-
-# Run initialization script
-ENTRYPOINT ["/usr/local/bin/init-wordpress.sh"]
+ENTRYPOINT [ "bash", "./init-wordpress.sh" ]

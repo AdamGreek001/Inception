@@ -1,6 +1,6 @@
 # Inception
 
-*This project has been created as part of the 42 curriculum by abogreek.*
+*This project has been created as part of the 42 curriculum by eel-alao.*
 
 ## Description
 
@@ -84,7 +84,7 @@ The infrastructure includes:
 | **Permissions** | Docker handles permissions | May have permission issues |
 | **Backup** | Via Docker commands | Direct filesystem access |
 
-**In Inception**: We use bind mounts (volumes with `type: none`) to store data in `/home/abogreek/data/` for easy access and backup from the host machine.
+**In Inception**: We use bind mounts (volumes with `type: none`) to store data in `/home/eel-alao/data/` for easy access and backup from the host machine.
 
 ---
 
@@ -96,7 +96,7 @@ The infrastructure includes:
 2. Virtual Machine (as required by the project)
 3. Add domain to hosts file:
    ```bash
-   echo "127.0.0.1 abogreek.42.fr" | sudo tee -a /etc/hosts
+   echo "127.0.0.1 eel-alao.42.fr" | sudo tee -a /etc/hosts
    ```
 
 ### Quick Start
@@ -130,8 +130,8 @@ make status
 
 ### Accessing the Site
 
-- **Website**: https://abogreek.42.fr
-- **Admin Panel**: https://abogreek.42.fr/wp-admin
+- **Website**: https://eel-alao.42.fr
+- **Admin Panel**: https://eel-alao.42.fr/wp-admin
 
 ---
 
